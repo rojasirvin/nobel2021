@@ -1,0 +1,371 @@
+---
+title: "Les hizo justicia la revolución"
+subtitle: "Una charla sobre el Nobel de Economía 2021"
+author: |
+  | Irvin Rojas
+institute: "CIDE"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [default, default-fonts, "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap-grid.min.css", "https://use.fontawesome.com/releases/v5.7.2/css/all.css", "https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css"]
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+class: title-slide, inverse, center, middle
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, fig.path = "figures/")
+
+library(tidyverse)
+library(janitor)
+library(sandwich)
+#library(nnet)
+#library(mlogit)
+library(readr)
+library(clubSandwich)
+library(modelsummary)
+library(estimatr)
+library(lubridate)
+library(ExPanDaR) #for describing panel data
+library(lfe)
+
+xfun::pkg_load2(c('base64enc', 'htmltools', 'mime'))
+```
+
+```{css, echo = FALSE}
+.huge .remark-code { /*Change made here*/
+  font-size: 200% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 60% !important;
+}
+```
+
+.title[
+# Les hizo justicia la revolución
+]
+.subtitle[
+### Una charla sobre el Nobel de Economía 2021
+]
+<br/>
+
+.author[
+### Irvin Rojas <br> [rojasirvin.com](https://www.rojasirvin.com/) <br> [<i class="fab fa-github"></i>](https://github.com/rojasirvin) [<i class="fab fa-twitter"></i>](https://twitter.com/RojasIrvin) [<i class="ai ai-google-scholar"></i>](https://scholar.google.com/citations?user=FUwdSTMAAAAJ&hl=en)
+]
+
+<br/>
+
+.affiliation[
+### Centro de Investigación y Docencia Económicas <br> División de Economía  <br>  <br>`r Sys.Date()`
+]
+
+---
+
+
+
+
+# El Premio Nobel
+
+Premio del Banco de Suecia en Ciencias Económicas en memoria de Alfred Nobel
+
+```{r, echo=FALSE, out.width="50%", fig.cap="Fuente: [Sitio oficial del Premio Nobel](https://www.nobelprize.org/prizes/economic-sciences/2021/summary/)", fig.align = 'center'}
+knitr::include_graphics("http://rioarriba.mx/public/images/articulos/article-2a85ae1c4138f859e0fbd745501a1f4e.jpg")
+```
+<br/><br/>
+
+*Premio Nobel de Economía* para los cuates
+
+---
+
+# Oficialmente
+
+
+David Card fue reconocido
+
+<blockquote>
+“por sus contribuciones empíricas a la economía laboral”
+</blockquote>
+
+<br/>
+
+Joshua Angrist y Guido Imbens por su parte
+
+<blockquote>
+“por sus contribuciones metodológicas al análisis de relaciones causales”
+</blockquote>
+
+<br/>
+
+Para más detalles está el 
+[documento científico](https://www.nobelprize.org/uploads/2021/10/advanced-economicsciencesprize2021.pdf) que motiva el premio
+
+
+---
+
+# El trabajo empírico antes de la revolución
+
+Modelar *procesos*
+  - Funciones de producción de la industria o la agricultura
+  - PIB
+  - Formación de capital humano
+  
+<br/>
+
+Muchas [*distracciones*](https://www.aeaweb.org/articles?id=10.1257/jep.24.2.3)
+  - $R^2$
+  - $F$
+  - Soluciones a los problemas clásicos
+  - Forma funcional
+  
+<br/>
+
+Poco o nada de cuidado a la solidez de los resultados
+  - ¿Cómo uno escoge la *especificación preferida*?
+
+---
+
+# Crítica al trabajo empírico
+
+[Leamer (1983)](https://www.jstor.org/stable/1803924?casa_token=qSb0dWjqZ0MAAAAA%3AEze_CO7Ji9O22B1R19WRgUInD97czHhfI-uzrlMg3IG6k_Cxa3zP86VFcD9btV8G5TMdvaOdFhTXENzFhfYBdFzdEPHvxJlMO99BcBaA2epNng3z98fF_A&seq=1#metadata_info_tab_contents)
+
+<blockquote>
+"Hay dos cosas que no quieres saber cómo se hacen: las salchichas y las estimaciones econométricas"
+</blockquote>
+
+<br/>
+
+La propuesta de Leamer era mostrar la robustez de los resultados
+
+<br/>
+
+Esto también se conoce como *análisis de límites extremos*
+
+<br/>
+
+Un análisis de sensibilidad no resuelve el problema fundamental
+
+---
+
+# Las afirmaciones causales
+
+A diario pensamos en relaciones de causalidad
+
+<br/>
+
+La prensa especializada y no especializada está llena de afirmaciones causales del tipo
+
+- Los programas reducen la pobreza
+
+- La pandemia causó más pobreza
+
+- La pandemia afectó la organización de los programas
+
+<br/>
+
+Responder apropiadamente a estos cuestionamientos nos obliga a pensar en *resultados contrafactuales*
+
+---
+
+# La revolución de la credibilidad
+
+La atención pasa de *el modelo* a *la relación causal*
+
+<br/>
+
+Diseño de estrategias empíricas que buscan emular lo que hubiera sido un experimento
+
+<br/>
+
+Énfasis en *la estrategia de identificación*
+
+<br/>
+
+La econometría por sí sola no da la identificación
+
+<br/>
+
+Incluso la econometría más refinada no resuleve el problema de un mal diseño
+
+<br/>
+
+
+
+---
+
+# Contribución de Card, Angrist e Imbens
+
+Usar la teoría económica para plantear relaciones causales de interés y diseñar estrategias que permitan aislar las relaciones causales, una a la vez
+
+<br/>
+
+Contribuciones a varios niveles
+
+- Compración y contrastación de la teoría
+
+- Diseño de estrategias para estimar relaciones causales
+
+- Refinamiento estadístico de los métodos que usamos
+
+<br/>
+
+Si falta un elemento, los otos dos no se sostienen solos
+
+
+---
+
+# Tomarse en serio la teoría
+
+Card abre el debate sobre los [efectos del salario mínimo](https://davidcard.berkeley.edu/papers/njmin-aer.pdf) usando datos
+
+Las contribuciones de Card abarcan diversas áreas en la economía laboral
+
+- [Migración](https://davidcard.berkeley.edu/papers/mariel-impact.pdf)
+
+- Discriminación en el mercado de trabajo
+
+- Rendimientos de la educación
+
+<br/>
+
+
+¿Por qué los estudios de Card son tan influyentes?
+
+<br/>
+
+Card inició debates permanente en estas áreas que combinan la teoría y la evidencia empírica
+
+
+---
+
+# Los experimentos naturales
+
+El trabajo de Angrist está en constante diálogo con el de Card y otros colegas
+
+<br/>
+
+Agudeza para encontrar experimentos naturales
+
+<br/>
+
+Estudio de Angrist sobre [la regla de Maimónides](https://www.jstor.org/stable/2587016) es un clásico sobre cómo conocer las instituciones permiten definir diseños econométricos
+
+
+<br/>
+
+Sus libros con Pischke son referencia obligada: [*Mostly Harmless Econometrics*](https://www.amazon.com/Mostly-Harmless-Econometrics-Empiricists-Companion/dp/0691120358) y [*Mastering Metrics*](https://www.amazon.com/Mastering-Metrics-Path-Cause-Effect/dp/0691152845/ref=pd_sbs_1/135-4411448-5806729?pd_rd_w=uorKl&pf_rd_p=3676f086-9496-4fd7-8490-77cf7f43f846&pf_rd_r=VAD0KDJ0Y750RGFJ80MN&pd_rd_r=b548b61b-f029-45b3-a024-4fcf65d9e7cf&pd_rd_wg=xEplu&pd_rd_i=0691152845&psc=1)
+
+<br/>
+
+Conversación [con Russ Roberts](https://www.econtalk.org/joshua-angrist-on-econometrics-and-causation/) que saca chispas
+
+
+---
+
+# Formalización de métodos econométricos
+
+Angrist e Imbens son dos de los economistas que han contribuido a la formalización de los métodos usados en econometría
+
+<br/>
+
+
+El desarrollo de la teoría detrás de las [variables instrumentales](https://www.tandfonline.com/doi/abs/10.1080/01621459.1996.10476902) y su aplicación para estimar el *LATE* [en experimentos](https://www.aeaweb.org/articles?id=10.1257/000282802762024629)
+
+
+<br/>
+
+Imbens está en casi todos los métodos que usamos para estudiar relaciones causales, como en [*matching*](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1468-0262.2006.00655) y [*regresión discontinua*](https://academic.oup.com/restud/article-abstract/79/3/933/1533189)
+
+<br/>
+
+El trabajo de Imbens incorpora desarrollos del aprendizaje automático y *big data* [en aplicaciones para la industria](https://www.annualreviews.org/doi/abs/10.1146/annurev-economics-080217-053433)
+
+
+<br/>
+
+Combinación de métodos experimentales y no experimentales para deducir efectos de largo plazo de intervenciones contemporáneas [en resultados económicos que aún no se realizan](https://arxiv.org/abs/2006.09676)
+
+---
+
+# Revolución en la forma de pensar
+
+Forma de pensar en economía
+
+- [Finanzas](https://pubsonline.informs.org/doi/abs/10.1287/mnsc.2016.2437)
+
+- [Macroeconomía](https://www.sciencedirect.com/science/article/abs/pii/S1574004816000094?casa_token=QcfJyvDmQ8YAAAAA:KZY9A7Mz6JPbHaa-A-SGmMPlt-gdon6QhSQN4WJKKezFTSua4mWRpbVtYLnopU3ciG8OJ9Pb0khp)
+
+- Criminología
+
+- [Epidemiología](https://dom-pubs.onlinelibrary.wiley.com/doi/abs/10.1111/dom.13926)
+
+<br/>
+
+Estudiar a Card, Angrist e Imbens también cambia la forma en que uno piensa problemas de la vida diaria
+
+---
+
+# Donde impacta el trabajo de los premiados
+
+CONEVAL
+
+<br/>
+
+
+Evaluación de programas [en las dependencias](https://www.gob.mx/conasami/documentos/el-efecto-del-programa-jovenes-construyendo-el-futuro-durante-la-pandemia-283604?idiom=es)
+
+<br/>
+
+Nuestros alumnos
+
+- [Lucy Hackett](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3354753)
+
+- [Luis Woo](http://mobile.repositorio-digital.cide.edu/handle/11651/4261)
+
+- [Miguel Manrique](http://mobile.repositorio-digital.cide.edu/handle/11651/4472)
+
+---
+
+# Relación con el Nobel de 2019
+
+A Esther Duflo, Abhijit Banerjee y Michael Kremer
+
+<blockquote>
+“por sus contribuciones al alivio de la pobreza global usando métodos experimentales”
+</blockquote>
+
+<br/>
+
+Un reconocimiento a la forma en que nos planteamos las preguntas de causalidad y el *experimento ideal* que quisiéramos implementar
+
+<br/>
+
+Card, Angrist e Imbens nos piden no darnos por vencidos si el experimento no puede realizarse
+
+---
+
+class: center, middle, inverse
+
+# ¡Gracias!
+
+.author[
+### [rojasirvin.com](https://www.rojasirvin.com/) <br> [<i class="fab fa-github"></i>](https://github.com/rojasirvin) [<i class="fab fa-twitter"></i>](https://twitter.com/RojasIrvin) [<i class="ai ai-google-scholar"></i>](https://scholar.google.com/citations?user=FUwdSTMAAAAJ&hl=en)
+]
+
+<br/>
+
+
+(Esta presentación está basada en el artículo [*Les hizo justicia la revolución*](http://rioarriba.mx/articulo.php?iden=les-hizo-justicia-la-revolucion).)
+
+<br/>
+
+<br/>
+
+
+Presentación creada usando el paquete [**xaringan**](https://github.com/yihui/xaringan) en R.
+
+El chakra viene de [remark.js](https://remarkjs.com), [**knitr**](https://yihui.org/knitr/), y [R Markdown](https://rmarkdown.rstudio.com).
